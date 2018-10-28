@@ -1,0 +1,21 @@
+version: '2'
+services:
+  dbTsAuthApi:
+    image: mysql
+    environment:
+      - "MYSQL_ROOT_PASSWORD=mysql"
+    volumes:
+      - "./data:/var/lib/mysql"
+    container_name: dbTsAuthApi
+    volumes:
+      - ./data:/data
+    networks:
+      - ddbnet
+    ports:
+      - "3306:3306"
+volumes:
+  dbTsAuthApi:
+    driver: local
+networks:
+  ddbnet:
+    driver: bridge

@@ -5,7 +5,9 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "tsc": "tsc"
+    "tsc": "tsc",
+    "start": "node ./bin/www",
+    "sequelize": "node_modules/.bin/sequelize"
   },
   "repository": {
     "type": "git",
@@ -25,8 +27,35 @@
   },
   "homepage": "https://github.com/LorneCurrie/typescript-api-auth#readme",
   "dependencies": {
-    "@types/express": "^4.16.0",
+    "bcrypt": "^3.0.2",
+    "body-parser": "^1.18.3",
+    "cookie-parser": "^1.4.3",
+    "cors": "^2.8.4",
     "express": "^4.16.4",
+    "express-validator": "^5.3.0",
+    "jsonwebtoken": "^8.3.0",
+    "morgan": "^1.9.1",
+    "mysql": "^2.16.0",
+    "mysql2": "^1.6.1",
+    "sequelize": "^4.41.0"
+  },
+  "devDependencies": {
+    "@types/bcrypt": "^3.0.0",
+    "@types/body-parser": "^1.17.0",
+    "@types/cookie-parser": "^1.4.1",
+    "@types/cors": "^2.8.4",
+    "@types/errorhandler": "0.0.32",
+    "@types/es6-promise": "^3.3.0",
+    "@types/express": "^4.16.0",
+    "@types/express-validator": "^3.0.0",
+    "@types/jsonwebtoken": "^7.2.8",
+    "@types/morgan": "^1.7.35",
+    "@types/mysql": "^2.15.5",
+    "@types/node": "^10.12.0",
+    "@types/sequelize": "^4.27.28",
+    "errorhandler": "^1.5.0",
+    "sequelize-cli": "^5.2.0",
+    "tslint": "^5.11.0",
     "typescript": "^3.1.3"
   }
 }
