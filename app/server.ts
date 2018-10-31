@@ -1,15 +1,16 @@
-import bodyparser from 'body-parser';
-import express from 'express';
-import logger from 'morgan';
-import path from 'path';
-import errorHandler from 'errorhandler';
+import bodyParser from "body-parser";
+import errorHandler from "errorhandler";
+import express from "express";
+import * as boom from "express-boom";
+import expressValidator from "express-validator";
+import logger from "morgan";
+import path from "path";
 
 export class Server {
-    public app: express.Application;
 
     /**
      * Build the application
-     * 
+     *
      * @class Server
      * @method build
      * @static
@@ -19,12 +20,14 @@ export class Server {
         return new Server();
     }
 
+    public app: express.Application;
+
     /**
      * Class constructor
-     * 
+     *
      * @class Server
      * @constructor
-     * 
+     *
      */
     constructor() {
         this.app = express();
@@ -34,38 +37,36 @@ export class Server {
     }
 
     /**
-     * REST API 
-     * 
+     * REST API
+     *
      * @class Server
      */
-    public api() {
-
-    }
+    public api() { }
 
     /**
-     * Appliaction Routes
+     * Application Routes
      * @class Server
      */
-    public config(){
-        if (process.env.NODE_ENV === 'dev'){
-            this.app.use(logger('dev'));
+    public config() {
+        if (process.env.NODE_ENV === "dev") {
+            this.app.use(logger("dev"));
         }
-        this.app.use(bodyparser.json());
-        this.app.use(bodyparser.urlencoded({
-            extended: true
+        this.app.use(bodyParser.json());
+        this.app.use(bodyParser.urlencoded({
+            extended: true,
         }));
         this.app.use((err: any, req: express.Request, res: express.Response, next: express.NextFunction) => {
             err.status = 404;
             next(err);
         });
         this.app.use(errorHandler());
+        this.app.use(boom());
+        this.app.use(expressValidator());
     }
 
     /**
      * Setup routes
      * @class Server
      */
-    public routes() {
-
-    }
+    public routes() {}
 }
