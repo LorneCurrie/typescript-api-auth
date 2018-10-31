@@ -1,6 +1,6 @@
 import Sequelize from "sequelize";
 
-interface IUserAttributes {
+export interface IUserAttributes {
     id?: string;
     firstName: string;
     lastName: string;
@@ -10,16 +10,25 @@ interface IUserAttributes {
     updatedAt?: string;
 }
 
-type UserInstance = Sequelize.Instance<IUserAttributes> & IUserAttributes;
+export interface IUserInstance extends Sequelize.Instance<IUserAttributes> {
+    id: string;
+    createAt: string;
+    updatedAt: string;
+
+    firstName: string;
+    lastName: string;
+    email: string;
+    password: string;
+}
 
 export default (sequelize: Sequelize.Sequelize) => {
-    const attributes: SequelizeAttributes<IUserAttributes> ={
-        id: { type: Sequelize.UUID, primaryKey: true, defaultValue: Sequelize.UUIDV4 },
-        firstName: {type: Sequelize.STRING, allowNull: true},
-        lastName: {type: Sequelize.STRING, allowNull: false},
+    const attributes: SequelizeAttributes<IUserAttributes> = {
         email: {type: Sequelize.STRING, allowNull: false},
+        firstName: {type: Sequelize.STRING, allowNull: true},
+        id: { type: Sequelize.UUID, primaryKey: true, defaultValue: Sequelize.UUIDV4 },
+        lastName: {type: Sequelize.STRING, allowNull: false},
         password: {type: Sequelize.STRING, allowNull: false},
     };
 
-    return sequelize.define<UserInstance, IUserAttributes>("User", attributes);
-}
+    return sequelize.define<IUserInstance, IUserAttributes>("User", attributes);
+};
