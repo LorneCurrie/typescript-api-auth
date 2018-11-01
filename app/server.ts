@@ -1,10 +1,13 @@
-import bodyParser from "body-parser";
+import {json, urlencoded} from "body-parser";
 import errorHandler from "errorhandler";
 import express from "express";
-import * as boom from "express-boom";
+import { Express, NextFunction, Request, Response } from "express";
+import boom from "express-boom";
 import expressValidator from "express-validator";
 import logger from "morgan";
-import path from "path";
+import * as winston from "winston";
+import * as constants from "./constants/index";
+import * as routes from "./routes/index";
 
 export class Server {
 
@@ -20,7 +23,7 @@ export class Server {
         return new Server();
     }
 
-    public app: express.Application;
+    public app: Express;
 
     /**
      * Class constructor
@@ -33,34 +36,31 @@ export class Server {
         this.app = express();
         this.config();
         this.routes();
-        this.api();
     }
-
-    /**
-     * REST API
-     *
-     * @class Server
-     */
-    public api() { }
 
     /**
      * Application Routes
      * @class Server
      */
     public config() {
-        if (process.env.NODE_ENV === "dev") {
+        if (process.env.NODE_ENV === constants.ENVIRONMENT.DEVELOPMENT) {
             this.app.use(logger("dev"));
         }
-        this.app.use(bodyParser.json());
-        this.app.use(bodyParser.urlencoded({
+        // Express Middleware
+        // Body-parser
+        this.app.use(json());
+        this.app.use(urlencoded({
             extended: true,
         }));
-        this.app.use((err: any, req: express.Request, res: express.Response, next: express.NextFunction) => {
+        this.app.use((err: any, req: Request, res: Response, next: NextFunction) => {
             err.status = 404;
             next(err);
         });
+        // Error Handler
         this.app.use(errorHandler());
+        // Express Boom
         this.app.use(boom());
+        // Express Validator
         this.app.use(expressValidator());
     }
 
@@ -68,5 +68,7 @@ export class Server {
      * Setup routes
      * @class Server
      */
-    public routes() {}
+    public routes() {
+        routes.initRoutes(this.app);
+    }
 }
