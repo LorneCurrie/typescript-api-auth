@@ -1,7 +1,8 @@
 import Sequelize from "sequelize";
 import UserFactory from "./user";
 
-const config = require("../config/config");
+import { ENVIRONMENT } from "../../constants/index";
+const config = require("../config/config.json");
 import {IUserAttributes, IUserInstance} from "./user";
 
 interface IDbConnection {
@@ -9,7 +10,7 @@ interface IDbConnection {
     [key: string]: any;
 }
 
-const env = process.env.NODE_ENV || "development";
+const env = process.env.NODE_ENV || ENVIRONMENT.DEVELOPMENT;
 const dbConfig = config[env];
 const sequelize = new Sequelize(dbConfig.database, dbConfig.username, dbConfig.password, dbConfig);
 
