@@ -6,8 +6,10 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "tsc": "tsc",
-    "start": "node ./bin/www",
-    "sequelize": "node_modules/.bin/sequelize"
+    "start": "export NODE_ENV=development && npm run db:create && npm run db:migrate && node ./bin/www",
+    "sequelize": "node_modules/.bin/sequelize",
+    "db:create": "node ./build/db/init/createDb.js",
+    "db:migrate": "npm run sequelize db:migrate"
   },
   "repository": {
     "type": "git",
@@ -39,7 +41,8 @@
     "morgan": "^1.9.1",
     "mysql": "^2.16.0",
     "mysql2": "^1.6.1",
-    "sequelize": "^4.41.0"
+    "sequelize": "^4.41.0",
+    "winston": "^3.1.0"
   },
   "devDependencies": {
     "@types/bcrypt": "^3.0.0",
